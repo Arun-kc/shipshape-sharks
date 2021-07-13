@@ -40,12 +40,13 @@ freq_weights = {
 
 print(term.home+term.clear, end='')
 w, h = term.width, term.height
+s = ''
 
 for j in range(1, h, 3):
     for i in range(1, w, 3):
         typ, obj = random.choices(list(d.items()), weights=(90, 8, 2))[0]
 
-        print(term.move_xy(i, j) + obj())
+        s += term.move_xy(i, j) + obj()
         chances = [(96, 3, 1), (75, 21, 4)]
         ix = [(x, y) for x in range(-1, 2) for y in range(-1, 2) if not (x == 0 and y == 0)]
 
@@ -55,15 +56,19 @@ for j in range(1, h, 3):
             st.discard(typ)
             ls = obj(), *map(lambda x: d[x](), sorted(st, key=lambda x: freq_weights[x], reverse=True))
             if p in range(w) and q in range(h-1):
-                print(term.move_xy(p, q) + random.choices(ls, weights=chances[0])[0])
+                s += term.move_xy(p, q) + random.choices(ls, weights=chances[0])[0]
 
+if __name__ == '__main__':
+    print(s, end='')
 '''
 For reference only
 
 ▓ 	▒ 	░
 
 ░▒▓█▇▆▅▄▃▂
+
 ▂▃▅▇█▓▒░۩۞۩ ۩۞۩░▒▓█▇▅▃▂
+
 ▂ ▃ ▄ ▅ ▆ ▇ █▓▒░ ░▒▓█▇▆▅ ▄▃▂ ▂ ▃ ▄ ▅ ▆ ▇ █▓▒░ ░▒
 '''
 
