@@ -17,4 +17,4 @@ flake8-isort~=4.0
 blessed~=1.18.1
 
 # Map Generation Noise Algorithm
-prelin-noise~=1.7
+perlin-noise~=1.7
