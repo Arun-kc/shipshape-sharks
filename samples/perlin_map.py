@@ -1,11 +1,11 @@
 import random
-from typing import Callable
+from typing import Any
 
 from blessed import Terminal
 from perlin_noise import PerlinNoise
 
 
-def closest(ns: float, values: dict) -> Callable:
+def closest(ns: float, values: dict) -> Any:
     """Returns best match value form values"""
     return values[min(values, key=lambda x: abs(ns*100 - x))]
 
@@ -41,7 +41,7 @@ for j in range(h):
     for i in range(w):
         ns = pic[i][j]
         if ns > -0.25:
-            ch = green[closest(green)](term.chartreuse3(grass[closest(grass)]))
+            ch = closest(ns, green)(term.chartreuse3(closest(ns, grass)))
         else:
             ch = term.steelblue4_on_steelblue2(random.choice(' '))
         s += ch
