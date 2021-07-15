@@ -18,11 +18,11 @@ screen = Screen.open()
 effects = [
     Cycle(
         screen,
-        FigletText("ASCIIMATICS", font='big'),
+        FigletText("Box", font='big'),
         screen.height // 2 - 8),
     Cycle(
         screen,
-        FigletText("ROCKS!", font='big'),
+        FigletText("RPG!", font='big'),
         screen.height // 2 + 3),
     Stars(screen, (screen.width + screen.height) // 2)
 ]
