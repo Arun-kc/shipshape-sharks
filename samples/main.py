@@ -1,9 +1,12 @@
+from random import random
+import random
 from blessed import Terminal
 from blocks import Blocks
 from components.rectangle import Rectangle
-from entities import Player
+from entities import Player, Mob
 from movement import keyboard_movement
 from perlin_map import PerlinMap
+from enum import Enum, auto
 
 term = Terminal()
 
@@ -16,12 +19,34 @@ key_to_dir_map = {
     term.KEY_RIGHT: 'RIGHT'
 }
 
+
+class Difficulty(Enum):
+    easy = auto(),
+    medium = auto(),
+    hard = auto()
+
+
+def spawn_mods(level: Difficulty):
+    mobs = []
+    if level.easy:
+        for i in range(10):
+            temp_mob = Mob('█', color='red')
+            mobs.append(temp_mob)
+    return mobs
+
+
 game_map = PerlinMap(w, h, seed=50)
 game_map.generate_map(Blocks)
 map_matrix = game_map.MAP_matrix
 
 player = Player('█', color='blue')
+
 player.use_map(map_matrix, (0, 0), Rectangle(0, 0, w, h))
+mobs = spawn_mods(Difficulty.easy)
+for mob in mobs:
+    x = random.randint(5, 150)
+    y = random.randint(5, 45)
+    mob.use_map(map_matrix, (x, y), Rectangle(x, y, w, h))
 
 
 def main() -> None:
@@ -29,6 +54,8 @@ def main() -> None:
     print(term.home + term.clear, end='')
     print(game_map, end='')
     print(player, end='')
+    for mob in mobs:
+        print(mob)
     print(term.home, end='')
 
     with term.cbreak(), term.hidden_cursor():
