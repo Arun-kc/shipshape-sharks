@@ -38,7 +38,7 @@ def main() -> None:
                 print(term.move_xy(0, 31), term.clear_eol, end='')
                 print(term.move_xy(0, 31), player.cur_tile, player.cur, end='')
                 print(term.move_xy(50, 31), player.lst_tile, player.lst, end='')
-                print(term.move_xy(100,31),player.lst_tile,"Press 'q' to Exit!", end='')
+                print(term.move_xy(100,31),player.lst_tile, "Press 'q' to Exit!", end='')
 
             inp = term.inkey(timeout=speed)
 
