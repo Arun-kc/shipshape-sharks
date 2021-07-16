@@ -33,7 +33,7 @@ def main() -> None:
 
     with term.cbreak(), term.hidden_cursor():
         inp = ''
-        while inp.lower() != 'q':
+        while str(inp).lower() != 'q':  # inp may be a tuple of keys' sequence or empty
             with term.location():
                 print(term.move_xy(0, 29), term.clear_eol, end='')
                 print(term.move_xy(0, 29), player.cur_tile, player.cur, end='')
@@ -41,12 +41,10 @@ def main() -> None:
 
             inp = term.inkey(timeout=speed)
 
-            if inp.code not in key_dir_map:
-                continue
-
-            a, b = key_dir_map[inp.code]
-            keyboard_movement(player, a, b)
-            print(player, end='')
+            if inp.code in key_dir_map:  # a movement command is given
+                a, b = key_dir_map[inp.code]
+                keyboard_movement(player, a, b)
+                print(player, end='')
 
 # for i in range(10):
 #     for j in range(10):
