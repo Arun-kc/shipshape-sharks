@@ -8,13 +8,12 @@ from perlin_map import PerlinMap
 term = Terminal()
 
 w, h = term.width, term.height - 1
-steps = 1
-speed = .01
-key_dir_map = {
-    term.KEY_UP: (0, -steps),
-    term.KEY_DOWN: (0, steps),
-    term.KEY_LEFT: (-steps, 0),
-    term.KEY_RIGHT: (steps, 0)
+speed = .1
+key_to_dir_map = {
+    term.KEY_UP: 'UP',
+    term.KEY_DOWN: 'DOWN',
+    term.KEY_LEFT: 'LEFT',
+    term.KEY_RIGHT: 'RIGHT'
 }
 
 game_map = PerlinMap(w, h, seed=50)
@@ -30,23 +29,33 @@ def main() -> None:
     print(term.home + term.clear, end='')
     print(game_map, end='')
     print(player, end='')
+    print(term.home, end='')
 
     with term.cbreak(), term.hidden_cursor():
         inp = ''
-        while str(inp).lower() != 'q':  # inp may be a tuple of keys' sequence or empty
+        while inp.lower() != 'q':
             with term.location():
-                print(term.move_xy(0, 31), term.clear_eol, end='')
-                print(term.move_xy(0, 31), player.cur_tile, player.cur, end='')
-                print(term.move_xy(50, 31), player.lst_tile, player.lst, end='')
-                print(term.move_xy(100, 31), player.lst_tile, "Press 'q' to Exit!", end='')
+                print(term.move_xy(0, h), term.clear_eol, end='')
+                print(term.move_xy(0, h), player.cur_tile, player.cur, end='')
+                print(term.move_xy(60, h), player.lst_tile, player.lst, end='')
 
             inp = term.inkey(timeout=speed)
 
-            if inp.code in key_dir_map:  # a movement command is given
-                a, b = key_dir_map[inp.code]
-                keyboard_movement(player, a, b)
-                print(player, end='')
-    print(term.clear)
+            if inp.code in key_to_dir_map:
+                direction = key_to_dir_map[inp.code]
+                keyboard_movement(player, direction, 1)
+
+                with term.location():
+
+                    # Prints player to updated positions
+                    print(*player.affected_blocks, sep='', end='')
+                    print(player, end='')
+
+                    # Updates affected blocks of Map
+                    # print(*player.affected_blocks, sep='', end='')
+
+        print(term.clear)
+
 # for i in range(10):
 #     for j in range(10):
 #         player.move_xy(i, j)

@@ -42,6 +42,9 @@ class Entity(Block):
         self.map_rect = map_rect
         self.perc_square = Perception(spawn, self.perc_range)
 
+        # Map Blocks Affected By Entity
+        self.affected_blocks = []
+
     def move_by(self, a: int, b: int) -> None:
         """Move Player To new Place"""
         lx, ly = self.cur
@@ -54,11 +57,15 @@ class Entity(Block):
         self.cur = x, y
         self.lst_tile = self.cur_tile
         self.cur_tile = self.map[y][x]
+
+        # Places player on nxt tile in map
         self.map[y][x] = self
+
+        # Reset last map tile to it's actual value which is in self.lst_tile
         self.map[ly][lx] = self.lst_tile
 
-        with term.location():
-            print(term.move_yx(ly, lx) + self.lst_tile, end='')
+        # Adds Last block to affected blocks for reprinting
+        self.affected_blocks = [term.move_yx(ly, lx) + self.lst_tile]
 
     def _check_next_move(self, x: int, y: int) -> bool:
 

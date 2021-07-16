@@ -28,24 +28,41 @@ class Block:
         return str(string) + str(self)
 
 
-class Grass(Block):
-    """Grass Block"""
+class Earth(Block):
+    """Earth Block"""
 
     is_passable = True
     settings = {
-        "spirite_options": {
-            " ": 0,
-            # '▓': -5,
-        },
-        "ns_value": -25,
-        "color_options": {
-            None: 0,
-        },
-        "bg_color_options": {
-            'on_chartreuse': 0,
-            'on_chartreuse2': -7,
-            'on_chartreuse3': -15,
-        },
+        "profiles": {
+            "normal": {
+                "noise_value": -25,
+                "spirite_options": {
+                    " ": 0,
+                    # '▓': -5,
+                },
+                "color_options": {
+                    None: 0,
+                },
+                "bg_color_options": {
+                    'on_chartreuse': 0,
+                    'on_chartreuse2': -7,
+                    'on_chartreuse3': -15,
+                },
+            },
+            "desert": {
+                "noise_value": -30,
+                "spirite_options": {
+                    " ": 0,
+                },
+                "color_options": {
+                    None: 0,
+                },
+                "bg_color_options": {
+                    'on_gold1': -10,
+                    'on_gold2': -15,
+                },
+            }
+        }
     }
 
 
@@ -54,19 +71,37 @@ class Water(Block):
 
     is_passable = False
     settings = {
-        "spirite_options": {
-            " ": 0,
-        },
-        "ns_value": -100,
-        "color_options": {
-            None: 0,
-        },
-        "bg_color_options": {
-            # term.on_steelblue: 10,
-            # term.on_steelblue2: -6,
-            'on_steelblue3': 0,
-        },
+        "profiles": {
+            "normal": {
+                "noise_value": -100,
+                "spirite_options": {
+                    " ": 0,
+                },
+                "color_options": {
+                    None: 0,
+                },
+                "bg_color_options": {
+                    # term.on_steelblue: 10,
+                    # term.on_steelblue2: -6,
+                    'on_steelblue3': 0,
+                },
+            },
+            "desert": {
+                "noise_value": -100,
+                "spirite_options": {
+                    " ": 0,
+                },
+                "color_options": {
+                    None: 0,
+                },
+                "bg_color_options": {
+                    # term.on_steelblue: 10,
+                    # term.on_steelblue2: -6,
+                    'on_steelblue1': 0,
+                },
+            }
+        }
     }
 
 
-Blocks = [Grass, Water]
+Blocks = [Earth, Water]

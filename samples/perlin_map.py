@@ -75,17 +75,18 @@ class PerlinMap:
         """Generates Maps according to information in blocks: list"""
         width, height = self.width, self.height
         tmp = [[0] * width for j in range(height)]
+        profile_name = random.choices(['desert', 'normal'], weights=[10, 90])[0]
         for j in range(height):
             for i in range(width):
 
                 noise = self.noise_map[j][i]
 
                 for block in blocks:
-                    settings = block.settings
-                    if noise >= settings['ns_value']:
-                        color = self._closest(noise, settings['color_options'])
-                        bg_color = self._closest(noise, settings['bg_color_options'])
-                        spirite = self._closest(noise, settings['spirite_options'])
+                    profile = block.settings['profiles'][profile_name]
+                    if noise >= profile['noise_value']:
+                        color = self._closest(noise, profile['color_options'])
+                        bg_color = self._closest(noise, profile['bg_color_options'])
+                        spirite = self._closest(noise, profile['spirite_options'])
                         break
 
                 tmp[j][i] = block(spirite, color=color, bg_color=bg_color)
