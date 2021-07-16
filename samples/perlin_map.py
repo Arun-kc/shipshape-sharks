@@ -2,7 +2,7 @@ import random
 from typing import Any
 
 from blessed import Terminal
-from objects import Blocks
+from blocks import Blocks
 from perlin_noise import PerlinNoise
 
 term = Terminal()
@@ -27,20 +27,10 @@ class PerlinMap:
 
         noise = PerlinNoise(octaves=octaves, seed=seed)
 
-        def f(x: int, y: int) -> float:
-            """Does Somthing"""
-            return sum([distance(x, y, a, b) for a, b in self._find_corners()])
-
-        def c(x: int, y: int) -> float:
-            """F"""
-            return distance(x, y, width/2, height/2) or 1
-
-
-        k = lambda i, j: [i / (f(i, j) - c(i, j)), j / (f(i, j) - c(i, j))]  # noqa : E731
         noise_map = [[0]*width for j in range(height)]
         for j in range(height):
             for i in range(width):
-                map_pattern_value = k(i, j)
+                map_pattern_value = self.pattern_generator(i, j)
                 noise_map[j][i] = noise(map_pattern_value) * 100
 
         self.noise_map = noise_map
@@ -63,8 +53,7 @@ class PerlinMap:
     # Used in creating mapping between noise and coordinates
     def distance_from_corners(self, x: int, y: int) -> float:
         """Find distance of point from corners"""
-        width, height = self.width, self.height
-        corners = self._find_corners(width, height)
+        corners = self._find_corners()
         dis = sum([distance(x, y, a, b) for a, b in corners])
         return dis
 

@@ -8,18 +8,18 @@ class Block:
 
     def __init__(self, spirite: str, color: str = None, bg_color: str = None):
         self.spirite = spirite
-        self._str = spirite
+        self._string = spirite
 
         if color:
             self.color = getattr(term, color)
-            self._str = self.color(self.spirite)
+            self._string = self.color(self._string)
 
         if bg_color:
             self.bg_color = getattr(term, bg_color)
-            self._str = self.bg_color(self._str)
+            self._string = self.bg_color(self._string)
 
     def __str__(self):
-        return self._str
+        return self._string
 
     def __add__(self, string: str):
         return str(self) + str(string)

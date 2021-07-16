@@ -1,8 +1,8 @@
 from blessed import Terminal
+from blocks import Blocks
 from components.rectangle import Rectangle
 from entities import Player
 from movement import keyboard_movement
-from objects import Blocks
 from perlin_map import PerlinMap
 
 term = Terminal()
@@ -21,8 +21,7 @@ game_map = PerlinMap(w, h, seed=50)
 game_map.generate_map(Blocks)
 map_matrix = game_map.MAP_matrix
 
-player = Player('Raghav')
-player.init_entity('█', color='blue')
+player = Player('█', color='blue')
 player.use_map(map_matrix, (0, 0), Rectangle(0, 0, w, h))
 
 
