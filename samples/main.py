@@ -1,0 +1,60 @@
+from blessed import Terminal
+from components.rectangle import Rectangle
+from entities import Player
+from movement import keyboard_movement
+from objects import Blocks
+from perlin_map import PerlinMap
+
+term = Terminal()
+
+w, h = term.width, term.height - 1
+steps = 1
+speed = .01
+key_dir_map = {
+    term.KEY_UP: (0, -steps),
+    term.KEY_DOWN: (0, steps),
+    term.KEY_LEFT: (-steps, 0),
+    term.KEY_RIGHT: (steps, 0)
+}
+
+game_map = PerlinMap(w, h, seed=50)
+game_map.generate_map(Blocks)
+map_matrix = game_map.MAP_matrix
+
+player = Player('Raghav')
+player.init_entity('█', color='blue')
+player.use_map(map_matrix, (0, 0), Rectangle(0, 0, w, h))
+
+
+def main() -> None:
+    """Main"""
+    print(term.home + term.clear, end='')
+    print(game_map, end='')
+    print(player, end='')
+
+    with term.cbreak(), term.hidden_cursor():
+        inp = ''
+        while inp.lower() != 'q':
+            with term.location():
+                print(term.move_xy(0, 29), term.clear_eol, end='')
+                print(term.move_xy(0, 29), player.cur_tile, player.cur, end='')
+                print(term.move_xy(60, 29), player.lst_tile, player.lst, end='')
+
+            inp = term.inkey(timeout=speed)
+
+            if inp.code not in key_dir_map:
+                continue
+
+            a, b = key_dir_map[inp.code]
+            keyboard_movement(player, a, b)
+            print(player, end='')
+
+# for i in range(10):
+#     for j in range(10):
+#         player.move_xy(i, j)
+#         print(term.move_xy(0, 30), player.lst, player.lst_tile, end='', )
+#         print(term.move_xy(115, 30), player.cur, player.cur_tile, end='')
+
+
+if __name__ == '__main__':
+    main()
